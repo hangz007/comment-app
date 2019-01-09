@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class Comment extends Component {
+    // 设置参数类型必须是一个对象
+    static propTypes = {
+        comment: PropTypes.object.isRequired
+    }
+
     render() {
         return (
     <div className='comment'>
