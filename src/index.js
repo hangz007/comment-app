@@ -1,6 +1,7 @@
 import React,{ Component } from 'react'
 import ReactDOM from 'react-dom'
 import Clock from './Clock'
+import CommentApp from './CommentApp'
 import './index.css'
 
 class Index extends Component {
@@ -28,6 +29,6 @@ class Index extends Component {
 }
    
 ReactDOM.render(
-        <Index />,
+        <CommentApp />,
         document.getElementById('root')
     )
