@@ -1,12 +1,35 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-class CommentInput extends Component {
+export default class CommentInput extends Component {
 
-    constructor() {
-        super()
+    /*校验参数*/
+    static propTypes = {
+        username: PropTypes.any,
+        onSubmit: PropTypes.func,
+        onUserNameInputBlur: PropTypes.func
+    }
+
+    /*默认属性*/
+    static defaultProps = {
+        username: ''
+    }
+
+    constructor (props) {
+        super(props)
         this.state = {
-            username:'',
-            content:''
+          username: props.username, // 从 props 上取 username 字段
+          content: ''
+        }
+    }
+
+    componentDidMount () {
+        this.textarea.focus()
+    }
+    
+    handleUsernameBlur (event) {
+        if (this.props.onUserNameInputBlur) {
+          this.props.onUserNameInputBlur(event.target.value)
         }
     }
 
@@ -22,15 +45,16 @@ class CommentInput extends Component {
         })
     }
 
-    handleSubmit(){
+ 
+    handleSubmit () {
         if (this.props.onSubmit) {
-            this.props.onSubmit({
-                username: this.state.username,
-                content: this.state.content,
-                createdTime: +new Date()
-            })
-          }
-          this.setState({ content: '' })
+          this.props.onSubmit({
+            username: this.state.username,
+            content: this.state.content,
+            createdTime: +new Date()
+          })
+        }
+        this.setState({ content: '' })
     }
 
     render(){
@@ -60,30 +84,4 @@ class CommentInput extends Component {
         )
     }
 
-    componentDidMount () {
-        this.textarea.focus()
-    }
-
-    componentWillMount () {
-        this._loadUsername()
-    }
-
-    // 加载本地存储
-    _loadUsername () {
-        const username = localStorage.getItem('username')
-        if (username) {
-          this.setState({ username })
-        }
-    }
-    
-    _saveUsername (username) {
-        localStorage.setItem('username', username)
-    }
-
-    // 输入框失去焦点时，保存用户名，密码
-    handleUsernameBlur (event) {
-        this._saveUsername(event.target.value)
-    }
 }
-
-export default CommentInput
